@@ -24,12 +24,26 @@
     </p>
     <div v-for="contact in contacts" v-bind:key="contact.id">
       {{ contact.first_name }} {{ contact.last_name }}
+      <img v-bind:src="contact.image" />
+      <p><button v-on:click="showContact(contact)">Show Contact Information</button></p>
+      <dialog id="contact-details">
+        <form method="dialog">
+          <h3>{{ contact.first_name }} {{ contact.first_name }}</h3>
+          <p>Email: {{ contact.email }}</p>
+          <p>Phone Number: {{ contact.phone_number }}</p>
+          <p>Image: {{ contact.image }}</p>
+          <button>Close</button>
+        </form>
+      </dialog>
       <hr />
     </div>
   </div>
 </template>
 
 <style>
+img {
+  width: 250px;
+}
 </style>
 
 <script>
@@ -44,6 +58,7 @@ export default {
       newEmail: "",
       newPhoneNumber: "",
       newImage: "",
+      currentContact: {},
     };
   },
   created: function () {
@@ -75,6 +90,11 @@ export default {
         this.newPhoneNumber = "";
         this.newImage = "";
       });
+    },
+    showContact: function (theContact) {
+      console.log("showing a contact");
+      this.currentContact = theContact;
+      document.querySelector("#contact-details").showModal();
     },
   },
 };
